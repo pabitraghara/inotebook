@@ -14,13 +14,16 @@ export const Signup = (props) => {
   const handleClick = async (e) => {
     e.preventDefault();
     const { name, email, password } = credential;
-    const response = await fetch("http://localhost:5001/api/auth/createuser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_HOST}/api/auth/createuser`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      }
+    );
     const json = await response.json();
     console.log(json);
     if (json.success) {
