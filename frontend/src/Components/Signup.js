@@ -15,7 +15,7 @@ export const Signup = (props) => {
     e.preventDefault();
     const { name, email, password } = credential;
     const response = await fetch(
-      `${process.env.REACT_APP_HOST}/api/auth/createuser`,
+      `${process.env.REACT_APP_HOST}api/auth/createuser`,
       {
         method: "POST",
         headers: {

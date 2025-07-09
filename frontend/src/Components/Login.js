@@ -10,7 +10,7 @@ export const Login = (props) => {
   const handleClick = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      `${process.env.REACT_APP_HOST}/api/auth/login`,
+      `${process.env.REACT_APP_HOST}api/auth/login`,
       {
         method: "POST",
         headers: {
