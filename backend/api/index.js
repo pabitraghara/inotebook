@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://inotebook-ut9e.vercel.app", "http://localhost:3000"],
+    origin: ["https://inotebook-y7jw.vercel.app", "http://localhost:3000"],
   })
 );
 
