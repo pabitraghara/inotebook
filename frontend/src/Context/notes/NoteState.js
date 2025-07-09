@@ -1,15 +1,13 @@
-import { json } from "react-router-dom";
 import NoteContext from "./noteContext";
 import { useState } from "react";
 
 const NoteState = (props) => {
-  const HOST = process.env.HOST;
+  const HOST = process.env.REACT_APP_HOST || "http://localhost:5001";
   const notesInitial = [];
   const [notes, setNotes] = useState(notesInitial);
 
   // Get all Notes
   const getNotes = async () => {
-    // API Call
     const response = await fetch(`${HOST}/api/notes/fetchallnotes`, {
       method: "GET",
       headers: {
@@ -18,14 +16,11 @@ const NoteState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json);
     setNotes(json);
   };
 
   // Add a Note
   const addNote = async (title, description, tag) => {
-    // TODO: API Call
-    // API Call
     const response = await fetch(`${HOST}/api/notes/addnote`, {
       method: "POST",
       headers: {
@@ -40,7 +35,6 @@ const NoteState = (props) => {
 
   // Delete a Note
   const deleteNote = async (id) => {
-    // TODO: API Call
     const response = await fetch(`${HOST}/api/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: {
@@ -48,19 +42,15 @@ const NoteState = (props) => {
         "auth-token": localStorage.getItem("token"),
       },
     });
-    const json = response.json();
-    console.log(json);
+    const json = await response.json();
+    console.log("Deleted:", json);
 
-    console.log("Deleting the note with id" + id);
-    const newNotes = notes.filter((note) => {
-      return note._id !== id;
-    });
+    const newNotes = notes.filter((note) => note._id !== id);
     setNotes(newNotes);
   };
 
   // Edit a Note
   const editNote = async (id, title, description, tag) => {
-    // API Call
     const response = await fetch(`${HOST}/api/notes/updatenote/${id}`, {
       method: "PUT",
       headers: {
@@ -70,13 +60,11 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }),
     });
     const json = await response.json();
-    console.log(json);
+    console.log("Updated:", json);
 
-    let newNotes = JSON.parse(JSON.stringify(notes));
-    // Logic to edit in client
+    const newNotes = JSON.parse(JSON.stringify(notes));
     for (let index = 0; index < newNotes.length; index++) {
-      const element = newNotes[index];
-      if (element._id === id) {
+      if (newNotes[index]._id === id) {
         newNotes[index].title = title;
         newNotes[index].description = description;
         newNotes[index].tag = tag;
@@ -94,4 +82,5 @@ const NoteState = (props) => {
     </NoteContext.Provider>
   );
 };
+
 export default NoteState;
